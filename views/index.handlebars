@@ -7,44 +7,56 @@
 
 <ul>
   {{#each burgers}}
-    {{#unless this.devoured}}
+  {{#unless this.devoured}} 
     
-        {{this.burger_name}}
+    {{!-- <li>
+    {{this.burger_name}}
+    
+     <form action="/api/burgers/{{this.id}}?_method=PUT" method="PUT">
+       
+        <button tye="submit">Devour!</button>
+     
+     </form>
 
-        <form action = "burgers/update/{{this.id}}?_method=PUT" method="POST">
-        <input type="hidden" name="devoured" value="false">
-        <button type="submit">Devour!</button>
-        </form>
-    
-      {{!-- {{> burgers/burger-block devoured=false}} --}}
+    </li> --}}
+
+    <li class="list-group-item">
+       <form action="/burgers/{{this.id}}?_method=PUT" method="POST">
+         <button type="submit" class='burgerAvailable'> {{this.burger_name}}</button>
+       </form>
+     </li>
     {{/unless}}
   {{/each}}
 </ul>
 
-{{!-- <h2>Devoured:</h2>
+<h2>Devoured:</h2>
+{{#each burgers}}
+  {{#if this.devoured}} 
+    
+    <li>
+    {{this.burger_name}}
 
-<ul>
-  {{#each burgers}}
-    {{#if devoured}}
-      {{> burgers/burger-block devoured=true}}
+    </li>
     {{/if}}
   {{/each}}
-</ul> --}}
 
 
+{{!-- submit the user input into the database. --}}  
 
-
-
-{{!-- Create a button in index.handlebars that will submit the user input into the database. --}}  
 
 <h2>Add a Burger</h2>
-<form class="create-form">
-
-  <div class="form-group">
-    <label for="ca">Burger Name:</label>
-    <input type="text" id="ca" name="name">
-  </div>
-
-
-  <button type="submit">Add Burger</button>
+<form method="POST" action="/api/burgers">
+    <textarea type="text" name="burger_name"></textarea>
+    <button type="submit">Add to Menu</button>
 </form>
+
+
+
+
+
+
+
+
+
+
+
