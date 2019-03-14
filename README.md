@@ -1,6 +1,6 @@
 
-#EAT-DA-BURGER! Restaurant App
-###Tools and tech: Node Express, Handlebars, MySQL, javascript, JQuery
+EAT-DA-BURGER! Restaurant App
+Tools and tech: Node Express, Handlebars, MySQL, javascript, JQuery
 
 
 This restaurant app allow users to input the names of burgers they'd like to eat. When the user submits a burger's name, the app will display the burger as a button under the "To be devoured:" heading, waiting to be devoured. 
