@@ -1,39 +1,73 @@
-//APP SET-UP
-//-------------------------------------------------------------------------------------------------
-//npm init - make a package.json file 
-//npm install express
-//npm install express-handlebars.
-//npm install mysql
-//Require the express npm package inside of the server.js file:
-
 var express = require("express");
-
-var PORT = process.env.PORT || 8080;
 
 var app = express();
 
-// static content 
-app.use(express.static("public"));
+// Set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var PORT = process.env.PORT || 8080;
 
-// Parse 
+// Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Handlebars.
 var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// Routes
-var routes = require("./controllers/burgers_controller.js");
+var mysql = require("mysql");
 
-app.use(routes);
 
-// Listener
-app.listen(PORT, function() {
-  console.log("Server listening on: http://localhost:" + PORT);
+var connection = mysql.createConnection({
+  host: "localhost",
+  port: 3306,
+  user: "root",
+  password: "root",
+  database: "burgers_db"
+});
+
+connection.connect(function (err) {
+  if (err) {
+    console.error("error connecting: " + err.stack);
+    return;
+  }
+
+  console.log("connected as id " + connection.threadId);
 });
 
 
+// routes
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+//Get
+app.get("/", function (req, res) {
+  connection.query("SELECT * FROM burgers;", function (err, data) {
+    if (err) throw err;
+
+    res.render("index", { burgers: data });
+  });
+});
+
+
+//Update
+//app.put function
+
+
+
+
+// Post 
+app.post("/", function (req, res) {
+
+
+  connection.query("INSERT INTO burgers (burger_name) VALUES (?)", [req.body.burger_name], function (err, result) {
+    if (err) throw err;
+
+    res.redirect("/");
+  });
+});
+
+// Start our server so that it can begin listening to client requests.
+app.listen(PORT, function () {
+  // Log (server-side) when our server has started
+  console.log("Server listening on: http://localhost:" + PORT);
+});

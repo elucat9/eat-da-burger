@@ -1,62 +1,70 @@
-{{!-- Setup the index.handlebars to have the template that Handlebars can render onto. --}}
-
-
 <h1>Eat Da Burger!</h1>
 
-<h2>To devour:</h2>
+<h3>Click to the devour button to devour the burger.</h3>
+<h3>Add burgers to the menu with the input box on the bottom.</h3>
+<hr>
 
+<h3>To be devoured:</h3>
 <ul>
   {{#each burgers}}
-  {{#unless this.devoured}} 
-    
-    {{!-- <li>
-    {{this.burger_name}}
-    
-     <form action="/api/burgers/{{this.id}}?_method=PUT" method="PUT">
-       
-        <button tye="submit">Devour!</button>
-     
-     </form>
+  {{#unless devoured}}
 
-    </li> --}}
+  <li>
+    <p>{{this.burger_name}} <button class="change-status">DEVOUR</button></p>
+  </li>
+  {{/unless}}
+  {{/each}}
 
-    <li class="list-group-item">
-       <form action="/burgers/{{this.id}}?_method=PUT" method="POST">
-         <button type="submit" class='burgerAvailable'> {{this.burger_name}}</button>
-       </form>
-     </li>
-    {{/unless}}
+
+</ul>
+
+<hr>
+
+<h3>Devoured:</h3>
+<ul>
+  {{#each burgers}}
+  {{#if devoured}}
+
+  <li>
+    <p>{{this.burger_name}} </p>
+  </li>
+  {{/if}}
   {{/each}}
 </ul>
 
-<h2>Devoured:</h2>
-{{#each burgers}}
-  {{#if this.devoured}} 
-    
-    <li>
-    {{this.burger_name}}
-
-    </li>
-    {{/if}}
-  {{/each}}
 
 
-{{!-- submit the user input into the database. --}}  
+<hr>
 
+<form action="/" method="POST">
+  <textarea type="text" name="burger_name"></textarea>
 
-<h2>Add a Burger</h2>
-<form method="POST" action="/api/burgers">
-    <textarea type="text" name="burger_name"></textarea>
-    <button type="submit">Add to Menu</button>
+  <button type="submit">Add Burger</button>
 </form>
 
 
+<script type="text/javascript">
+
+
+  $(".change-status").on("click", function (event) {
+    event.preventDefault(),
+     var id = $(this).attr("id")
+    console.log(id)
+    $.ajax("/api/update/" + id, {
+      type: "POST",
+      data: id
+    })
+      .then(
+        function () {
+          location.reload();
+        })
+      .catch(
+        function (err) {
+          if (err) throw err;
+        }
+      )
+  });
 
 
 
-
-
-
-
-
-
+</script>
