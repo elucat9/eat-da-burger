@@ -18,13 +18,11 @@ app.set("view engine", "handlebars");
 var mysql = require("mysql");
 
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "root",
-  database: "burgers_db"
-});
+connection = mysql.createConnection({
+  host: 'thh2lzgakldp794r.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+  user: '	kx6t8i8aqdlpk489',
+  password: 'umz400fbpc6euvci',
+  database: 'tja1gja9o8kbckqx',
 
 connection.connect(function (err) {
   if (err) {
@@ -51,6 +49,7 @@ app.get("/", function (req, res) {
 
 //Update
 //app.put function
+  //connection.query("UPDATE")
 
 
 
